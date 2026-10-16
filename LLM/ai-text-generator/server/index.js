@@ -25,6 +25,51 @@ app.get("/api/health",(req,res)=>{
 });
 
 
+// Generate AI Text
+app.post("/api/generate",async (req,res)=>{
+    try {
+        const {prompt}=req.body ?? {};
+
+        if(typeof prompt !== "string" || !prompt.trim()){
+            return res.status(400).json({
+                error:"Please enter a prompt.",
+            });
+        }
+
+        if(prompt.length > 4000){
+            return res.status(400).json({
+                error:"Prompt must be 4000 characters or fewer.",
+            });
+        }
+
+        const response=await ai.models.generateContent({
+            model:"gemini-2.5-flash",
+            contents:prompt.trim(),
+        });
+
+        const text=response.text;
+
+        if(!text){
+            return res.status(502).json({
+                error:"The AI returned no text. Please try again.",
+            });
+        }
+
+        return res.json({text})
+
+
+    } catch (error) {
+        // Keep detailed diagnostics on the server
+        console.error("Gemini API error :", error.message);
+
+        return res.status(502).json({
+            error:"AI generation failed. Check your API access and try again.",
+        });
+
+    }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Backend running at http://localhost:${PORT}`);
 });
