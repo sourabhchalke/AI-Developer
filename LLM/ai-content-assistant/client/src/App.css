@@ -26,3 +26,38 @@
     font-weight: 600;
     box-shadow: 0 4px 16px rgba(99,102,241,0.4);
 }
+
+/* InputBox Component */
+.input-box{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+.input-box label{
+    font-weight:600 ;
+    color: #e2e8f0;
+    font-size: 0.95rem;
+}
+.input-box textarea{
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    background-color: #1e293b;
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    transition: border 0.2s ease;
+}
+.input-box textarea:focus{
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+}
+.input-box small{
+    color: #64748b;
+    font-size: 0.8rem;
+    text-align: right;
+}
