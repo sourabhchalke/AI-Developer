@@ -5,28 +5,47 @@ import InputBox from "./components/InputBox";
 import OutputBox from "./components/OutputBox";
 
 function App() {
-
-  const [feature,setFeature]=useState("email");
+  const [feature, setFeature] = useState("email");
   console.log(feature);
-  const [input,setInput]=useState("");
+  const [input, setInput] = useState("");
   console.log(input);
-  const [output,setOutput]=useState("");
+  const [output, setOutput] = useState("");
   console.log(output);
-  const [loading,setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleGenerate = async () => {
+    if (!input.trim()) {
+      setOutput("Please enter some text first.");
+      return;
+    }
+
+    setLoading(true);
+    setOutput("")
+
+
+  };
+
   return (
     <>
       <div className="app">
         <header className="app-header">
           <h1>AI Content Assistant</h1>
-          <p>Pick a feature, type your text, and let Gemini do the work.</p>
+          <p>Pick a feature, type your text, and let AI do the work.</p>
         </header>
 
-        <FeatureSelector value={feature} onChange={setFeature}/>
+        <FeatureSelector value={feature} onChange={setFeature} />
 
-        <InputBox value={input} onChange={setInput}/>
+        <InputBox value={input} onChange={setInput} />
+
+        <button
+          className="generate-btn"
+          onClick={handleGenerate}
+          disabled={loading}
+        >
+          {loading ? "Generating..." : "Generate"}
+        </button>
 
         <OutputBox output={output} loading={loading} />
-
       </div>
     </>
   );

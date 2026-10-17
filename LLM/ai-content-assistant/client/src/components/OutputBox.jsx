@@ -2,7 +2,7 @@
 const OutputBox = ({output,loading}) => {
 
     if(loading) return <div className="output-box loading">Generating...</div>
-    // if(!output) return null;
+    if(!output) return null;
 
     const copy=()=> navigator.clipboard.writeText(output);
 
