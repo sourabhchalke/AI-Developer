@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import { GoogleGenAI } from "@google/genai";
 
@@ -18,8 +19,40 @@ const prompts = {
     "You are a senior interviewer. Generate 8 interview questions (mix of technical and behavioral). Number them.",
 };
 
-router.post('/',async(req,res)=>{
-    res.json({status:"OK",message:"Generate Route working"});
-})
+router.post("/", async (req, res) => {
+
+  const { feature, input } = req.body;
+
+  // Validation
+  if (!prompts[feature]) {
+    return res.status(400).json({ error: "Invalid Feature" });
+  }
+  if (!input) {
+    return res.status(400).json({error:"Please enter some text"})
+  }
+  if(input.length>8000){
+    return res.status(400).json({error:"Input too long (max 8000 character)"})
+  }
+
+  try {
+    
+    // Call Gemini
+    const response = await ai.models.generateContent({
+        model:"gemini-3.8-flash",
+        contents:input,
+        config:{
+            systemInstruction:prompts[feature],
+            temperature:0.7,
+        },
+    });
+
+    res.json({output:response.text});
+    
+
+  } catch (error) {
+    console.log("Gemini AI error",error.message);
+    res.status(500).json({error:"AI Failed. Try Again."});
+  }
+});
 
 export default router;
