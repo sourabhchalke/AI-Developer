@@ -20,7 +20,25 @@ function App() {
     }
 
     setLoading(true);
-    setOutput("")
+    setOutput("");
+
+    try {
+      
+      const res = await fetch("/api/generate",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({feature,input}),
+      });
+
+      const data = await res.json();
+      setOutput(data.error ? "Error!" +data.error : data.output);
+
+    } catch (err) {
+      setOutput("Network Error. Is the backend running?");
+      console.log(err);
+    }finally{
+      setLoading(false);
+    }
 
 
   };
