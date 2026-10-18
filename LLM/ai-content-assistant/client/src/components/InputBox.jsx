@@ -8,7 +8,7 @@ const InputBox = ({ value, onChange }) => {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
-      <small>/ 8000 characters</small>
+      <small> {value.length}/ 8000 characters</small>
     </div>
   );
 };
